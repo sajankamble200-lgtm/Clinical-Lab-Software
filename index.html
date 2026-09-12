@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Laboratory Software - Professional Edition</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/print.css" media="print">
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="loginScreen" class="login-screen">
+    <div class="login-card">
+        <div class="login-brand">
+            <div class="login-icon">🔐</div>
+            <h2>Clinical Lab Admin Login</h2>
+            <p>Professional Laboratory Management System</p>
+        </div>
+        <div id="loginError" class="login-error"></div>
+        <div class="login-field">
+            <label>Username</label>
+            <input id="loginUsername" type="text" autocomplete="username" value="admin" placeholder="Enter username">
+        </div>
+        <div class="login-field">
+            <label>Password</label>
+            <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter password">
+        </div>
+        <button class="login-btn" onclick="performLogin()">🔓 Login Securely</button>
+        <div class="security-badge">🔒 Secure Session Protected</div>
+        <div class="lab-info">
+            <strong>Lab Owner:</strong> K. SAJAN<br>
+            <strong>Contact:</strong> 7996726497
+        </div>
+    </div>
+</div>
+
+<!-- Main Header -->
+<header class="header">
+    <div class="logo">
+        <div class="logo-icon">🔬</div>
+        <div>
+            <div class="logo-title">Clinical Laboratory Software</div>
+            <div class="logo-subtitle">Professional Edition • Owner: K. SAJAN</div>
+        </div>
+    </div>
+    <nav class="menu">
+        <button onclick="showPage('dashboard')">📊 Dashboard</button>
+        <button onclick="showPage('patient')">➕ New Patient</button>
+        <button onclick="showPage('records')">🔎 Patient Records</button>
+        <button onclick="showPage('results')">📝 Lab Results</button>
+        <button onclick="showPage('report')">📄 Report</button>
+        <button onclick="showPage('billing')">💰 Billing</button>
+        <button onclick="showPage('doctorReports')">👨‍⚕️ Doctor Reports</button>
+        <button onclick="showPage('backup')">💾 Backup</button>
+        <button onclick="showPage('security')">🛡️ Security</button>
+        <button class="logout-btn" onclick="logout()">🔒 Logout</button>
+    </nav>
+</header>
+
+<!-- Alert Box -->
+<div id="alert" class="alert"></div>
+
+<!-- Main Container -->
+<div class="container">
+
+    <!-- DASHBOARD PAGE -->
+    <section id="dashboard" class="page active">
+        <h1>Laboratory Dashboard</h1>
+        <p>Manage patients, laboratory reports and billing efficiently.</p>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-content">
+                    <h3>Total Patients</h3>
+                    <strong id="totalPatients">0</strong>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-content">
+                    <h3>Today's Patients</h3>
+                    <strong id="todayPatients">0</strong>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-content">
+                    <h3>Pending Results</h3>
+                    <strong id="pendingResults">0</strong>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-content">
+                    <h3>Completed Results</h3>
+                    <strong id="completedResults">0</strong>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-content">
+                    <h3>Total Collection</h3>
+                    <strong id="totalCollection">₹0</strong>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💳</div>
+                <div class="stat-content">
+                    <h3>Outstanding</h3>
+                    <strong id="totalOutstanding">₹0</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Quick Actions</h2>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="showPage('patient')">➕ Register New Patient</button>
+                <button class="btn btn-secondary" onclick="showPage('records')">🔎 Search Patient</button>
+                <button class="btn btn-success" onclick="showPage('backup')">💾 Backup Database</button>
+                <button class="btn btn-info" onclick="showPage('security')">🛡️ Security Center</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW PATIENT PAGE -->
+    <section id="patient" class="page">
+        <h1>New Patient Registration</h1>
+        <form id="patientForm" class="patient-form">
+            <div class="card">
+                <h2>Patient Information</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Patient Name *</label>
+                        <input id="pName" type="text" required placeholder="Enter full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input id="pAge" type="number" min="0" max="150" placeholder="Enter age">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select id="pGender">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile Number</label>
+                        <input id="pMobile" type="tel" placeholder="Enter mobile number">
+                    </div>
+                    <div class="form-group">
+                        <label>Referring Doctor</label>
+                        <input id="pDoctor" type="text" placeholder="Enter doctor name">
+                    </div>
+                    <div class="form-group">
+                        <label>Sample Type</label>
+                        <select id="pSample">
+                            <option value="Blood">Blood</option>
+                            <option value="Serum">Serum</option>
+                            <option value="Plasma">Plasma</option>
+                            <option value="Urine">Urine</option>
+                            <option value="Stool">Stool</option>
+                            <option value="Semen">Semen</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Address</label>
+                        <textarea id="pAddress" rows="3" placeholder="Enter patient address"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Select Tests</h2>
+                <div class="test-search">
+                    <input id="testSearch" type="search" placeholder="🔎 Search test by name...">
+                </div>
+                <div id="testList" class="test-grid"></div>
+                <div class="total-amount">
+                    <strong>Total Amount: ₹<span id="selectedTotal">0</span></strong>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">💾 Save & Enter Results</button>
+                <button type="reset" class="btn btn-secondary" onclick="resetPatientForm()">Clear Form</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- PATIENT RECORDS PAGE -->
+    <section id="records" class="page">
+        <h1>Patient Records</h1>
+        <div class="card">
+            <div class="search-row">
+                <input id="searchPatient" type="text" placeholder="Search Patient ID, Name or Mobile" oninput="displayRecords()">
+                <input id="recordsDate" type="date" onchange="displayRecords()">
+                <button class="btn btn-secondary" onclick="clearSearch('recordsDate')">Clear Date</button>
+            </div>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Patient ID</th>
+                            <th>Report No</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Mobile</th>
+                            <th>Date</th>
+                            <th>Tests</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordsBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- LAB RESULTS PAGE -->
+    <section id="results" class="page">
+        <h1>Laboratory Result Entry</h1>
+        <div class="card">
+            <div id="resultPatient" class="patient-info-box"></div>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Result</th>
+                            <th>Unit</th>
+                            <th>Reference Range</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultBody"></tbody>
+                </table>
+            </div>
+
+            <div class="form-actions" style="margin-top: 20px;">
+                <button class="btn btn-primary" onclick="saveResults()">💾 Save Results</button>
+                <button class="btn btn-success" onclick="openCurrentReport()">📄 Generate Report</button>
+                <button class="btn btn-secondary" onclick="showPage('records')">← Back</button>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h2>Billing Information</h2>
+            <div class="billing-grid">
+                <div class="form-group">
+                    <label>Total Amount</label>
+                    <input id="billTotal" type="number" min="0" step="0.01" oninput="calculateBill()">
+                </div>
+                <div class="form-group">
+                    <label>Discount</label>
+                    <input id="billDiscount" type="number" min="0" step="0.01" value="0" oninput="calculateBill()">
+                </div>
+                <div class="form-group">
+                    <label>Paid Amount</label>
+                    <input id="billPaid" type="number" min="0" step="0.01" value="0" oninput="calculateBill()">
+                </div>
+                <div class="form-group">
+                    <label>Balance Due</label>
+                    <input id="billBalance" type="number" readonly>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="saveBilling()">💰 Save Billing</button>
+        </div>
+    </section>
+
+    <!-- REPORT PAGE -->
+    <section id="report" class="page">
+        <div class="report-toolbar no-print">
+            <button class="btn btn-primary" onclick="printAllReports()">🖨️ Print All</button>
+            <button class="btn btn-secondary" onclick="showPage('records')">← Back</button>
+        </div>
+        <div id="reportList" class="report-container"></div>
+    </section>
+
+    <!-- BILLING PAGE -->
+    <section id="billing" class="page">
+        <h1>Billing Management</h1>
+        <div class="card">
+            <div class="search-row">
+                <input id="billSearch" type="text" placeholder="Search Patient ID, Name or Mobile" oninput="displayBills()">
+                <input id="billDate" type="date" onchange="displayBills()">
+            </div>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Patient ID</th>
+                            <th>Name</th>
+                            <th>Total</th>
+                            <th>Discount</th>
+                            <th>Paid</th>
+                            <th>Balance</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="billsBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOCTOR REPORTS PAGE -->
+    <section id="doctorReports" class="page">
+        <h1>Doctor-wise Commission Report</h1>
+        <div class="card">
+            <h2>Filter Options</h2>
+            <div class="filter-grid">
+                <div class="form-group">
+                    <label>Doctor Name</label>
+                    <input id="doctorName" type="text" placeholder="Enter doctor name" list="doctorList" oninput="renderDoctorReport()">
+                    <datalist id="doctorList"></datalist>
+                </div>
+                <div class="form-group">
+                    <label>Month</label>
+                    <select id="doctorMonth" onchange="renderDoctorReport()">
+                        <option value="all">All Months</option>
+                        <option value="0">January</option>
+                        <option value="1">February</option>
+                        <option value="2">March</option>
+                        <option value="3">April</option>
+                        <option value="4">May</option>
+                        <option value="5">June</option>
+                        <option value="6">July</option>
+                        <option value="7">August</option>
+                        <option value="8">September</option>
+                        <option value="9">October</option>
+                        <option value="10">November</option>
+                        <option value="11">December</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Year</label>
+                    <select id="doctorYear" onchange="renderDoctorReport()"></select>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="renderDoctorReport()">📊 Generate Report</button>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h2>Summary</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <label>Total Patients</label>
+                    <strong id="doctorTotalPatients">0</strong>
+                </div>
+                <div class="summary-item">
+                    <label>Total Billing</label>
+                    <strong id="doctorTotalBilling">₹0</strong>
+                </div>
+                <div class="summary-item">
+                    <label>Commission</label>
+                    <strong id="doctorTotalCommission">₹0</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Report No</th>
+                            <th>Patient Name</th>
+                            <th>Tests</th>
+                            <th>Billing</th>
+                            <th>Discount</th>
+                            <th>Commission</th>
+                        </tr>
+                    </thead>
+                    <tbody id="doctorReportBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- BACKUP PAGE -->
+    <section id="backup" class="page">
+        <h1>Database Backup & Restore</h1>
+        
+        <div class="card">
+            <h2>📥 Export Backup</h2>
+            <p>Download all patient records as a JSON backup file.</p>
+            <button class="btn btn-success" onclick="backupDatabase()">⬇️ Download Backup</button>
+        </div>
+
+        <div class="card">
+            <h2>📤 Import Backup</h2>
+            <p>Restore patient records from a previously backed up file.</p>
+            <input type="file" id="restoreFile" accept=".json">
+            <button class="btn btn-primary" onclick="restoreDatabase()">⬆️ Restore Backup</button>
+        </div>
+
+        <div class="card danger-zone">
+            <h2>⚠️ Danger Zone</h2>
+            <p>Permanently delete all patient records. This action cannot be undone.</p>
+            <button class="btn btn-danger" onclick="clearDatabase()">🗑️ Delete All Records</button>
+        </div>
+    </section>
+
+    <!-- SECURITY PAGE -->
+    <section id="security" class="page">
+        <h1>🛡️ Security & Settings</h1>
+        
+        <div class="card">
+            <h2>🔐 Change Admin Password</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Current Password</label>
+                    <input type="password" id="currentPassword" autocomplete="current-password">
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" id="newPassword" autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirmPassword" autocomplete="new-password">
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="changeAdminPassword()">🔑 Update Password</button>
+        </div>
+
+        <div class="card">
+            <h2>📋 System Information</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Administrator:</label>
+                    <span>admin</span>
+                </div>
+                <div class="info-item">
+                    <label>Login Required:</label>
+                    <span>Yes (Every session)</span>
+                </div>
+                <div class="info-item">
+                    <label>Laboratory Contact:</label>
+                    <span>7996726497</span>
+                </div>
+                <div class="info-item">
+                    <label>Owner:</label>
+                    <span>K. SAJAN</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer no-print">
+    <p>🔬 <strong>Clinical Laboratory Software</strong> - Professional Edition<br>
+    Owner: K. SAJAN | Contact: 7996726497</p>
+</footer>
+
+<!-- Scripts -->
+<script src="js/config.js"></script>
+<script src="js/database.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/patient.js"></script>
+<script src="js/results.js"></script>
+<script src="js/billing.js"></script>
+<script src="js/reports.js"></script>
+<script src="js/backup.js"></script>
+<script src="js/utils.js"></script>
+
+</body>
+</html>
